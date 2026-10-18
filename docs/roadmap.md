@@ -79,14 +79,13 @@ Antes de persistencia, una implementación como `InMemoryIssueRepository` permit
 - https://quarkus.io/get-started/
 - https://quarkus.io/guides/getting-started
 
-## 02. Crear un proyecto: CLI, Maven, extensiones y estructura
+## 02. Crear un proyecto: Maven, extensiones y estructura
 
 **Demo aislada:** continuar `getting-started-demo`.
 
 **Issue Tracker:** crear el proyecto base y conocer su estructura.
 
-**Fuentes oficiales:**
-- https://quarkus.io/guides/cli-tooling
+**Fuente oficial:**
 - https://quarkus.io/guides/maven-tooling
 
 ## 03. Dev Mode y ciclo de desarrollo

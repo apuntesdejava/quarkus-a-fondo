@@ -265,7 +265,7 @@ La primera sesión utiliza el proyecto sin desmontar todavía todas sus piezas.
 La siguiente sesión responderá preguntas que quedan deliberadamente abiertas:
 
 - ¿qué generó exactamente el comando de creación?;
-- ¿qué papel tienen la CLI y Maven?;
+- ¿qué papel tiene Maven y el plugin de Quarkus?;
 - ¿qué contiene el `pom.xml`?;
 - ¿cómo se agregan o eliminan extensiones?;
 - ¿qué estructura tiene un proyecto Quarkus?;
@@ -273,7 +273,7 @@ La siguiente sesión responderá preguntas que quedan deliberadamente abiertas:
 
 Esto conduce directamente a:
 
-**Sesión 02 — Crear un proyecto: CLI, Maven, extensiones y estructura.**
+**Sesión 02 — Crear un proyecto: Maven, extensiones y estructura.**
 
 ## Fuentes oficiales
 
