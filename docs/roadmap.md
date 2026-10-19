@@ -15,7 +15,7 @@ La intención no es recorrer todas las extensiones disponibles, sino construir c
 - El mismo concepto debe incorporarse después al **Issue Tracker**, la aplicación transversal.
 - El Issue Tracker no debe usar tecnologías o conceptos que todavía no hayan sido explicados.
 - **Testing se introduce temprano y se mantiene durante todo el curso.**
-- **La separación por capas se utiliza desde las primeras funcionalidades**, incluso cuando los datos todavía viven en memoria.
+- **La separación de responsabilidades se introduce progresivamente**, cuando exista funcionalidad suficiente para justificarla. No se crearán capas, paquetes o abstracciones vacías antes de que el curso haya explicado el problema que resuelven.
 - **CDI se aprende progresivamente**: primero beans, scopes e inyección; después qualifiers, producers, interceptores, eventos y demás capacidades cuando aparezca una necesidad real.
 - **Dev Services** se utiliza siempre que ayude a reducir infraestructura accidental durante desarrollo y pruebas.
 - **Podman** será el runtime de contenedores recomendado para el entorno local, sin acoplar el código a Podman.
@@ -43,7 +43,11 @@ El Issue Tracker evolucionará progresivamente para incorporar, cuando correspon
 - integraciones externas;
 - eventos de dominio.
 
-Desde que exista suficiente lógica para justificarlo, el proyecto utilizará capas. Una estructura conceptual inicial puede ser:
+La estructura del Issue Tracker debe crecer junto con las necesidades reales de la aplicación.
+
+No se crearán desde el inicio paquetes o capas como `api`, `service`, `repository` o `domain` únicamente para anticipar una arquitectura futura. Cada separación debe aparecer cuando exista código y una responsabilidad concreta que justifiquen introducirla.
+
+Cuando el curso llegue a CDI y comience a existir funcionalidad de negocio suficiente, se podrá introducir progresivamente una estructura como:
 
 ```text
 api/
@@ -57,7 +61,9 @@ repository/
 domain/
 ```
 
-Antes de persistencia, una implementación como `InMemoryIssueRepository` permitirá mantener esa separación. Cuando llegue Hibernate ORM/Panache, la infraestructura podrá cambiar sin convertir los recursos REST en responsables de persistencia o reglas de negocio.
+La estructura `Resource → Service → Repository` no debe entenderse como una plantilla obligatoria para todas las sesiones. Su propósito es separar responsabilidades cuando estas realmente existan.
+
+Antes de estudiar persistencia, una implementación como `InMemoryIssueRepository` podrá utilizarse una vez que el concepto de repositorio ya tenga sentido dentro de la aplicación. Cuando posteriormente se incorpore Hibernate ORM/Panache, la infraestructura podrá cambiar sin trasladar persistencia o reglas de negocio a los recursos REST.
 
 ---
 
@@ -83,7 +89,7 @@ Antes de persistencia, una implementación como `InMemoryIssueRepository` permit
 
 **Demo aislada:** `demos/02-project-structure/`.
 
-**Issue Tracker:** crear el proyecto base y conocer su estructura.
+**Issue Tracker:** revisar el proyecto base creado en la sesión anterior y conocer su estructura.
 
 **Fuente oficial:**
 - https://quarkus.io/guides/maven-tooling
@@ -806,7 +812,7 @@ La intención es evitar convertir el curso en un catálogo de extensiones.
 
 ## Etapa 1 — Esqueleto
 
-Quarkus, configuración, CDI básico y separación por capas.
+Quarkus, configuración, CDI básico y separación progresiva de responsabilidades.
 
 ## Etapa 2 — API en memoria
 
