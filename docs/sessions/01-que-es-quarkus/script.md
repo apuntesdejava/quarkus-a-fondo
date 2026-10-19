@@ -2,13 +2,11 @@
 
 ## Propósito de la sesión
 
-Esta primera sesión debe responder una pregunta antes de comenzar a programar en serio:
+Esta primera sesión debe responder una pregunta antes de comenzar a programar en serio: **¿por qué existe Quarkus?**
 
-**¿por qué existe Quarkus?**
+La sesión presenta el cambio de contexto que motivó su diseño, introduce la idea de build time frente a runtime, ubica Quarkus dentro del ecosistema Java y explica a alto nivel el papel de las extensiones. La parte práctica termina con dos proyectos mínimos: la demo aislada y el Issue Tracker.
 
-El objetivo no es recorrer características ni aprender todavía la estructura completa de una aplicación. La sesión presenta el problema, introduce la idea de build time frente a runtime, ubica Quarkus dentro del ecosistema Java, explica a alto nivel el papel de las extensiones y termina creando y ejecutando dos proyectos mínimos: la demo aislada y el Issue Tracker.
-
-El flujo principal del curso utiliza **Java + Maven**. No se instalará ni utilizará Quarkus CLI. Esto reduce herramientas adicionales y deja visible desde el principio que estamos trabajando con proyectos Java/Maven y con el plugin Maven de Quarkus.
+Los comandos completos utilizados durante la grabación están en `commands.md`. En este guion solo se indican las acciones que conviene realizar y lo que interesa destacar mientras se muestran.
 
 ---
 
@@ -27,13 +25,11 @@ Después, dejar solamente:
 
 ### Narración
 
-Java ya tiene un ecosistema enorme. Tenemos Jakarta EE, Hibernate, MicroProfile, bibliotecas maduras y frameworks que llevan años funcionando en producción.
+Java ya tiene un ecosistema enorme. Jakarta EE, Hibernate, MicroProfile y muchas bibliotecas maduras llevan años resolviendo aplicaciones empresariales.
 
 Por eso, empezar diciendo que Quarkus es rápido, que consume poca memoria o que puede generar ejecutables nativos no responde todavía la pregunta importante.
 
-Antes de ver cómo se crea una aplicación Quarkus quiero entender por qué apareció otra propuesta dentro de un ecosistema que ya resolvía aplicaciones empresariales desde hace mucho tiempo.
-
-La clave está en que el contexto de ejecución cambió.
+Antes de ver cómo se crea una aplicación Quarkus conviene entender qué cambió para que apareciera otra propuesta dentro de un ecosistema tan maduro.
 
 ---
 
@@ -41,59 +37,31 @@ La clave está en que el contexto de ejecución cambió.
 
 ### En pantalla
 
-Mostrar primero:
-
-```text
-Aplicación empresarial tradicional
-
-arranca
-   │
-   ▼
-permanece ejecutándose
-   │
-   ▼
-horas / días / meses
-```
-
-Después introducir:
-
-```text
-cloud
-contenedores
-escalamiento dinámico
-alta densidad
-scale-to-zero
-```
+Mostrar una aplicación empresarial que arranca una vez y permanece ejecutándose durante horas, días o meses. Después introducir visualmente cloud, contenedores, escalamiento dinámico, alta densidad y scale-to-zero.
 
 ### Narración
 
-En muchos sistemas empresariales tradicionales una aplicación arrancaba una vez y después permanecía funcionando durante días o meses.
+En muchos sistemas empresariales tradicionales una aplicación arrancaba una vez y después permanecía funcionando durante mucho tiempo.
 
-En ese escenario, realizar bastante trabajo durante el arranque podía ser perfectamente razonable. El framework podía descubrir componentes, procesar metadatos, preparar estructuras internas y después amortizar ese coste durante una ejecución prolongada.
+En ese escenario, realizar bastante trabajo durante el arranque podía ser perfectamente razonable. El framework podía descubrir componentes, procesar metadatos, preparar estructuras internas y amortizar ese coste durante una ejecución prolongada.
 
-Ese modelo sigue siendo válido.
+Ese modelo sigue siendo válido. Lo que cambió es que hoy también desplegamos aplicaciones en escenarios donde las instancias pueden aparecer y desaparecer, escalar según la carga o compartir infraestructura con muchas otras aplicaciones.
 
-Lo que cambió es que hoy también desplegamos aplicaciones en escenarios donde las instancias pueden aparecer y desaparecer, escalar según la carga o compartir infraestructura con muchas otras aplicaciones.
+Ahí adquieren especial importancia dos características: cuánto tarda una aplicación en estar lista y cuántos recursos necesita.
 
-Ahí adquieren especial importancia dos cosas: **cuánto tarda una aplicación en estar lista y cuántos recursos necesita**.
-
-No estamos diciendo que Java tradicional esté mal. Estamos diciendo que surgieron condiciones diferentes y que Quarkus fue diseñado prestando atención a ellas.
+El punto no es presentar los modelos tradicionales como un error, sino mostrar que aparecieron condiciones distintas y que Quarkus fue diseñado prestando atención a ellas.
 
 ---
 
-## 3. La idea central: hacer antes lo que podamos hacer antes
+## 3. La idea central: build time y runtime
 
 ### En pantalla
 
-Pregunta:
+Plantear la pregunta:
 
 > Si una parte de la aplicación ya puede conocerse durante el build, ¿tenemos que descubrirla otra vez cada vez que arrancamos?
 
-Después mostrar:
-
-```text
-build time  ───────────────►  runtime
-```
+Mostrar después los dos diagramas simplificados de build y runtime incluidos en las diapositivas.
 
 ### Narración
 
@@ -101,67 +69,13 @@ Aquí aparece una de las ideas fundamentales de Quarkus.
 
 Si durante la construcción del artefacto ya tenemos información suficiente para realizar parte de la preparación del framework, podemos intentar mover ese trabajo hacia el build.
 
-Veámoslo de forma deliberadamente simplificada.
+En un modelo tradicional simplificado, una cantidad importante de preparación puede ocurrir cuando la aplicación arranca. Quarkus intenta realizar antes todo aquello que razonablemente pueda resolverse durante la construcción.
 
-### En pantalla
+Eso puede reducir el trabajo necesario al arrancar y contribuir a mejorar tiempo de inicio y uso de recursos.
 
-```text
-Enfoque tradicional
+Conviene remarcar que el diagrama es conceptual. Quarkus no hace absolutamente todo durante el build y el runtime sigue teniendo trabajo que realizar.
 
-build
-  │
-  ▼
-artefacto
-  │
-  ▼
-arranque
-  │
-  ├── preparación
-  ├── descubrimiento
-  ├── metadatos
-  └── inicialización
-  │
-  ▼
-aplicación lista
-```
-
-### Narración
-
-Podemos imaginar un modelo donde una cantidad importante de preparación ocurre cuando la aplicación arranca.
-
-Ahora veamos la dirección que toma Quarkus.
-
-### En pantalla
-
-```text
-Quarkus
-
-build
-  │
-  ├── análisis
-  └── preparación
-  │
-  ▼
-artefacto preparado
-  │
-  ▼
-arranque
-  │
-  ▼
-aplicación lista
-```
-
-### Narración
-
-Quarkus intenta realizar durante el build todo el trabajo que razonablemente pueda hacerse allí.
-
-Eso puede reducir el trabajo necesario al arrancar y contribuir a mejorar el tiempo de inicio y el uso de recursos.
-
-El diagrama es conceptual. No significa que Quarkus haga absolutamente todo durante el build ni que el runtime deje de realizar inicialización.
-
-Tampoco vamos a explicar todavía cómo funciona internamente. Augmentation, build steps, class loading y otros detalles tendrán su lugar más adelante.
-
-En esta sesión basta con entender la dirección arquitectónica.
+Tampoco es momento de explicar augmentation, build steps o class loading. Esos mecanismos pertenecen a una ruta posterior. En esta sesión basta con entender la dirección arquitectónica.
 
 ---
 
@@ -169,29 +83,15 @@ En esta sesión basta con entender la dirección arquitectónica.
 
 ### En pantalla
 
-```text
-              Quarkus
-                 │
-      ┌──────────┼──────────┐
-      │          │          │
-  Jakarta EE  MicroProfile  Hibernate
-      │          │          │
-      └──── ecosistema Java ┘
-```
-
-Agregar visualmente nombres como SmallRye y Vert.x sin convertir la diapositiva en un catálogo.
+Mostrar Quarkus rodeado por Jakarta EE, MicroProfile, Hibernate ORM, SmallRye y Vert.x.
 
 ### Narración
 
-Quarkus no pretende reemplazar el ecosistema Java.
+Quarkus se apoya en tecnologías conocidas del ecosistema Java.
 
-Durante el curso vamos a encontrarnos con Jakarta EE, MicroProfile, Hibernate ORM, SmallRye, Vert.x y otras tecnologías existentes.
+Durante el curso utilizaremos estándares, APIs e implementaciones que ya existen, y aprenderemos progresivamente qué parte corresponde a cada proyecto y qué aporta Quarkus en su integración.
 
-Quarkus las integra dentro de su modelo de construcción, configuración, desarrollo y ejecución.
-
-Conforme avancemos habrá que distinguir entre la API o estándar que utilizamos, su implementación y la integración que Quarkus realiza.
-
-Hoy solamente necesitamos quedarnos con una idea: aprender Quarkus no significa abandonar el ecosistema Java. Significa utilizarlo dentro de un runtime y una experiencia de desarrollo diseñados con otras prioridades.
+Esta distinción será importante más adelante. Por ahora basta con ubicar Quarkus como un stack que integra ese ecosistema dentro de un modelo de construcción y ejecución diseñado para aplicaciones modernas.
 
 ---
 
@@ -199,227 +99,134 @@ Hoy solamente necesitamos quedarnos con una idea: aprender Quarkus no significa 
 
 ### En pantalla
 
-Construir progresivamente:
-
-```text
-Aplicación Quarkus
-      │
-      ├── REST
-      ├── Hibernate ORM
-      ├── PostgreSQL
-      ├── OIDC
-      └── OpenTelemetry
-```
+Mostrar una aplicación Quarkus a la que se van incorporando capacidades como REST, Hibernate ORM, PostgreSQL, OIDC y OpenTelemetry.
 
 ### Narración
 
-Una aplicación Quarkus incorpora muchas de sus capacidades mediante extensiones.
+Las capacidades de una aplicación Quarkus se incorporan en gran medida mediante extensiones.
 
-Si necesitamos exponer una API, tendremos una extensión para REST. Cuando lleguemos a persistencia aparecerán Hibernate ORM y PostgreSQL. Cuando lleguemos a seguridad aparecerá OIDC.
+Esto encaja con la metodología del curso: no instalaremos desde el principio todo lo que creemos que necesitaremos. Cada capacidad aparecerá cuando tengamos un problema que justifique aprenderla.
 
-Esto coincide con la metodología del curso: no vamos a instalar desde el principio todo lo que creemos que necesitaremos. Cada capacidad aparecerá cuando exista un problema que justifique aprenderla.
+Una extensión involucra dependencias Maven, pero su integración puede abarcar también el build, la configuración, el desarrollo y el runtime.
 
-Hay otro detalle que conviene dejar claro desde ahora.
-
-### En pantalla
-
-```text
-Extensión Quarkus
-       ≠
-"solo otra dependencia Maven"
-```
-
-### Narración
-
-Una extensión termina involucrando dependencias Maven, pero no debemos reducirla mentalmente a eso. Puede integrarse con el build, configuración, desarrollo y runtime de Quarkus.
-
-Todavía no vamos a estudiar esos mecanismos.
-
-La siguiente sesión será justamente donde veremos cómo Maven y el plugin de Quarkus crean el proyecto y cómo se incorporan extensiones.
+No necesitamos estudiar todavía esos mecanismos. La siguiente sesión abrirá precisamente la caja de Maven, el plugin de Quarkus, las extensiones y la estructura generada.
 
 ---
 
-## 6. Cuatro malentendidos que conviene evitar
+## 6. Malentendidos frecuentes
 
 ### En pantalla
 
-Mostrar uno por uno:
+Mostrar de forma breve cuatro asociaciones frecuentes:
 
-**Quarkus = Native Image** ❌  
-**Quarkus = solo Kubernetes** ❌  
-**Quarkus reemplaza Jakarta EE** ❌  
-**Quarkus obliga a programar reactivo** ❌
+- Quarkus y Native Image;
+- Quarkus y Kubernetes;
+- Quarkus y Jakarta EE;
+- Quarkus y programación reactiva.
 
 ### Narración
 
-Antes de pasar a la práctica quiero evitar cuatro asociaciones que pueden confundir el resto del curso.
+Quarkus puede ejecutarse perfectamente sobre la JVM. Native Image será una alternativa de empaquetado que estudiaremos más adelante.
 
-Quarkus no significa Native Image. Podemos ejecutar perfectamente nuestra aplicación sobre la JVM. Native será una alternativa de empaquetado que estudiaremos mucho más adelante.
+Aunque su diseño presta especial atención a cloud y contenedores, sus decisiones también pueden ser útiles fuera de Kubernetes.
 
-Quarkus tampoco sirve únicamente para Kubernetes. Su diseño presta mucha atención a cloud y contenedores, pero sus decisiones también pueden ser útiles fuera de esos entornos.
+El framework utiliza tecnologías del ecosistema Java en lugar de reemplazarlas.
 
-No reemplaza Jakarta EE ni el resto del ecosistema Java; acabamos de ver que se apoya precisamente en muchas de esas tecnologías.
-
-Y utilizar Quarkus no significa que debamos programar todo de forma reactiva. Cuando lleguemos a modelos de ejecución estudiaremos blocking, non-blocking, Mutiny y virtual threads con un problema concreto delante.
+Y tampoco necesitamos empezar escribiendo código reactivo. Cuando lleguemos a modelos de ejecución podremos estudiar blocking, non-blocking, Mutiny y virtual threads con un problema concreto delante.
 
 ---
 
-## 7. Preparar el entorno de la demo
+## 7. Preparar el entorno
 
 ### Transición
 
-Hasta aquí todo ha sido conceptual. Ahora vamos a crear la primera aplicación.
-
-Para seguir el curso solamente necesitamos tener Java y Maven preparados. No necesitamos instalar la CLI de Quarkus.
+Hasta aquí todo ha sido conceptual. Ahora vamos a comprobar que tenemos el entorno mínimo para crear la primera aplicación.
 
 ### En pantalla
 
-Comprobar:
+Mostrar el baseline:
 
-```powershell
-java -version
-mvn -version
-```
+**JDK 25 · Maven 3.9.16 · Git**
 
-### Narración
+Si la máquina todavía no tiene Java o Maven preparados, abrir los Gists del curso, descargar los scripts y ejecutarlos. No explicar su implementación; solo mostrar que permiten preparar el entorno de forma reproducible.
 
-Antes de crear el proyecto verificamos dos cosas: qué Java está utilizando la terminal y qué Maven está utilizando ese Java.
+Para Maven, enfatizar que la versión siempre se pasa explícitamente al script y no se depende de su valor por defecto.
 
-Si estamos preparando Maven desde cero con el script del curso, **siempre indicaremos explícitamente la versión**.
-
-### En pantalla
-
-```powershell
-.\setup-mvn.ps1 -MavenVersion 3.9.16
-```
+Después mostrar las verificaciones de Java, Maven y Git definidas en `commands.md`.
 
 ### Narración
 
-No dejamos que el curso dependa del valor por defecto que pueda tener el script. La versión forma parte del entorno reproducible del curso.
+El curso necesita tres herramientas base: JDK 25, Maven 3.9.16 y Git.
 
-En este momento la guía oficial de Getting Started de Quarkus utiliza Maven 3.9.16 como prerrequisito. Si actualizamos la versión utilizada por el curso en el futuro, actualizaremos también este comando y la documentación correspondiente.
+Los scripts publicados para Java y Maven son utilidades de preparación del entorno. No forman parte del contenido técnico de Quarkus y no vamos a analizarlos línea por línea.
 
-Después de instalar o configurar Maven comprobamos nuevamente:
+Lo importante aquí es que Maven esté utilizando el JDK esperado y que las versiones queden claras antes de generar el proyecto.
 
-```powershell
-mvn -version
-```
-
-Además de la versión de Maven, este comando nos permite verificar qué JDK está utilizando Maven.
+La Quarkus CLI no es un requisito del curso. Todo el recorrido principal se hará con Maven.
 
 ---
 
-## 8. Demo aislada: crear la primera aplicación con Maven
+## 8. Demo aislada: primera aplicación
 
 ### En pantalla
 
-Cambiar al terminal en la carpeta:
+Cambiar al terminal y situarse en `demos/`.
 
-```text
-quarkus-a-fondo/
-└── demos/
-```
+Ejecutar el comando de creación documentado en `commands.md` para generar `demos/01-getting-started/`.
 
 ### Narración
 
-Nuestra primera demo será `demos/01-getting-started`.
+Nuestra primera demo vive en `demos/01-getting-started/`.
 
-Para crearla no utilizaremos una herramienta adicional. Invocaremos directamente el plugin Maven de Quarkus.
-
-No voy a explicar todavía cada parámetro del comando. La siguiente sesión estará dedicada precisamente a Maven, extensiones y estructura del proyecto.
+Para crearla invocamos directamente el plugin Maven de Quarkus. En esta sesión no vamos a explicar todos los parámetros del comando; eso pertenece a la siguiente.
 
 ### En pantalla
 
-En PowerShell:
-
-```powershell
-mvn io.quarkus.platform:quarkus-maven-plugin:3.40.1:create `
-    "-DprojectGroupId=io.github.apuntesdejava.quarkusafondo" `
-    "-DprojectArtifactId=01-getting-started" `
-    "-Dextensions=rest"
-```
+Abrir brevemente el proyecto y señalar, sin desarrollarlos, el `pom.xml`, `src/main/java/`, `src/main/resources/` y `src/test/`.
 
 ### Narración
 
-Por ahora solo observemos el resultado.
+El proyecto ya contiene estructura Maven, código Java, configuración y pruebas generadas.
+
+Es tentador empezar a recorrer cada archivo, pero todavía no tenemos el contexto para hacerlo con provecho. Hoy solo queremos comprobar que la aplicación funciona.
 
 ### En pantalla
 
-Abrir el proyecto y señalar brevemente:
+Ejecutar la aplicación usando el comando de `commands.md` y, desde otra terminal, realizar la verificación HTTP.
 
-```text
-pom.xml
-src/main/java/
-src/main/resources/
-src/test/
-```
+No demostrar todavía live coding ni recorrer Dev UI.
 
 ### Narración
 
-Tenemos un proyecto Maven, código Java, configuración y pruebas generadas.
+Con esto la demo ha cumplido su propósito.
 
-Es tentador empezar a abrir cada archivo, pero no lo haremos todavía.
+No estamos midiendo rendimiento, no estamos compilando Native Image y tampoco estamos estudiando las anotaciones del recurso generado.
 
-Hoy queremos ejecutar la aplicación.
-
-### En pantalla
-
-Desde `demos/01-getting-started`:
-
-```powershell
-mvn quarkus:dev
-```
-
-Mostrar el arranque.
-
-### Narración
-
-El objetivo de esta sesión no es estudiar Dev Mode. Por ahora solamente estamos utilizando el goal que nos permite ejecutar la aplicación durante el desarrollo.
-
-Dev Mode tendrá su propia sesión.
-
-### En pantalla
-
-Realizar:
-
-```text
-GET http://localhost:8080/hello
-```
-
-Mostrar la respuesta.
-
-### Narración
-
-Con esto la primera demo ha cumplido su propósito.
-
-No hicimos un benchmark. No compilamos una aplicación nativa. No explicamos todavía las anotaciones del recurso generado.
-
-Simplemente comprobamos que podemos crear una aplicación Quarkus con Maven, arrancarla y obtener una respuesta.
+Solo hemos creado una aplicación Quarkus con Maven, la hemos arrancado y hemos comprobado que responde.
 
 ---
 
-## 9. Lo que estamos dejando sin explicar
+## 9. Lo que queda para después
 
 ### En pantalla
 
+Mostrar una correspondencia breve:
+
 ```text
-pom.xml             → sesión 02
-plugin Maven        → sesión 02
-extensiones         → sesión 02
-estructura          → sesión 02
-mvn quarkus:dev     → sesión 03
-Dev UI              → sesión 04
-configuración       → sesión 05
-CDI / ArC           → sesión 07
+pom.xml / plugin / extensiones / estructura  → sesión 02
+Dev Mode                                     → sesión 03
+Dev UI                                       → sesión 04
+configuración                                → sesión 05
+CDI / ArC                                    → sesión 07
 ```
 
 ### Narración
 
 Estamos utilizando algunas herramientas antes de estudiarlas a fondo, y eso es intencional.
 
-Prefiero que hoy sepamos para qué existe Quarkus y terminemos con algo funcionando, en lugar de comprimir varias sesiones en una sola introducción.
+La prioridad hoy es entender para qué existe Quarkus y terminar con una aplicación funcionando. Las piezas que acabamos de tocar superficialmente tendrán sesiones propias.
 
-Incluso la prueba que Quarkus haya generado se queda sin explicar. Cuando lleguemos al bloque de testing estudiaremos cómo probar correctamente la aplicación.
+Incluso las pruebas generadas se quedan sin explicar. Cuando llegue el bloque de testing veremos cómo probar una aplicación Quarkus de forma sistemática.
 
 ---
 
@@ -427,11 +234,11 @@ Incluso la prueba que Quarkus haya generado se queda sin explicar. Cuando llegue
 
 ### Transición
 
-La metodología del curso tendrá siempre dos movimientos: primero una demo aislada y después la aplicación transversal.
-
-Nuestra aplicación transversal será un Issue Tracker.
+Cada sesión del curso tendrá dos movimientos: primero una demo aislada y después la aplicación transversal.
 
 ### En pantalla
+
+Mostrar la estructura:
 
 ```text
 quarkus-a-fondo/
@@ -441,52 +248,17 @@ quarkus-a-fondo/
 └── issue-tracker/
 ```
 
-### Narración
-
-En esta primera sesión el Issue Tracker no necesita ninguna funcionalidad de negocio.
-
-No tendremos Projects, Issues, usuarios, persistencia ni capas.
-
-La primera evolución consiste solamente en crear el proyecto base y comprobar que puede ejecutarse.
-
-### En pantalla
-
-Crear `issue-tracker` también mediante el plugin Maven de Quarkus, utilizando la misma versión de plataforma elegida para la sesión.
-
-Después ejecutar:
-
-```powershell
-mvn quarkus:dev
-```
-
-y comprobar que arranca.
+Crear `issue-tracker/` con el comando correspondiente de `commands.md`, ejecutarlo y comprobar que responde.
 
 ### Narración
 
-La demo y el Issue Tracker pueden parecer casi idénticos en este momento. La diferencia está en su propósito.
+En esta primera sesión el Issue Tracker no necesita funcionalidad de negocio.
 
-### En pantalla
+Todavía no tendremos Projects, Issues, usuarios, persistencia ni capas. La primera evolución consiste únicamente en crear el proyecto base y comprobar que puede ejecutarse.
 
-```text
-demos/01-getting-started
-        │
-        ▼
-experimento de esta sesión
-```
+La demo y el Issue Tracker pueden parecer casi idénticos ahora, pero cumplen funciones distintas.
 
-```text
-issue-tracker
-        │
-        ▼
-aplicación que evoluciona
-durante todo el curso
-```
-
-### Narración
-
-La demo queda como un laboratorio pequeño y local al concepto.
-
-El Issue Tracker conserva su historia. Cada sesión irá agregándole solamente aquello que ya hayamos aprendido.
+La demo queda como laboratorio aislado de esta sesión. El Issue Tracker conserva su historia y evolucionará durante todo el curso.
 
 ---
 
@@ -494,87 +266,39 @@ El Issue Tracker conserva su historia. Cada sesión irá agregándole solamente 
 
 ### En pantalla
 
-Mostrar progresivamente:
+Recuperar las cuatro ideas centrales:
 
-```text
-El contexto cambió
-        │
-        ▼
-más trabajo en build time
-        │
-        ▼
-menos trabajo al arrancar
-```
-
-Y debajo:
-
-**ecosistema Java + extensiones**
+- cambio de contexto;
+- build time y runtime;
+- ecosistema Java;
+- extensiones.
 
 ### Narración
 
-De esta primera sesión quiero que queden cuatro ideas.
+De esta primera sesión conviene conservar cuatro ideas.
 
-El contexto de ejecución de las aplicaciones cambió y aparecen escenarios donde startup y recursos importan especialmente.
+El contexto de ejecución de las aplicaciones cambió y aparecen escenarios donde startup y consumo de recursos tienen especial importancia.
 
-Quarkus intenta trasladar hacia build time parte del trabajo que tradicionalmente puede ocurrir durante el arranque.
+Quarkus intenta trasladar hacia build time parte del trabajo que puede resolverse antes de arrancar.
 
-No reemplaza el ecosistema Java: integra tecnologías que iremos encontrando durante el curso.
+Se apoya en tecnologías del ecosistema Java que iremos estudiando durante el curso.
 
-Y las capacidades de una aplicación Quarkus se incorporan mediante extensiones.
+Y una aplicación Quarkus adquiere capacidades mediante extensiones.
 
-Ya tenemos además nuestras dos primeras aplicaciones: una demo que puede quedarse congelada como referencia de esta sesión y un Issue Tracker que recién empieza su recorrido.
+Ya tenemos además dos proyectos: una demo congelada como referencia de esta sesión y un Issue Tracker que recién empieza su recorrido.
 
-### En pantalla
-
-Resaltar:
-
-```text
-Maven
-pom.xml
-plugin de Quarkus
-extensiones
-estructura
-```
-
-### Narración
-
-Pero todavía estamos usando una caja que no hemos abierto.
-
-¿Qué hizo exactamente ese comando Maven?
-
-¿Qué papel tiene el plugin de Quarkus?
-
-¿Qué contiene el `pom.xml`?
-
-¿Cómo agregamos o quitamos extensiones?
-
-Y ¿qué partes de la estructura generada necesitamos conocer realmente?
-
-Eso será la siguiente sesión:
-
-**Crear un proyecto: Maven, extensiones y estructura.**
-
----
+La siguiente sesión abrirá la caja que hoy utilizamos casi sin mirar: Maven, el plugin de Quarkus, el `pom.xml`, las extensiones y la estructura del proyecto.
 
 ## Notas para la grabación
 
-- El curso utiliza **Java y Maven**, no Quarkus CLI.
-- Si se muestra `setup-mvn.ps1`, pasar siempre `-MavenVersion`; nunca depender del valor por defecto del script.
-- Para esta versión de la sesión se utiliza Maven **3.9.16**, coherente con el prerrequisito indicado por la guía oficial actual de Getting Started de Quarkus.
-- Antes de grabar, verificar que la versión del plugin Maven de Quarkus mostrada en el comando sigue siendo la versión elegida para el curso.
-- Utilizar PowerShell en los comandos de Windows y envolver los parámetros `-D...` entre comillas.
+- El curso utiliza JDK 25, Maven 3.9.16 y Git como baseline actual.
+- Maven es la herramienta principal; no usar Quarkus CLI.
+- Los scripts de instalación se muestran solo como utilidades de preparación. No explicar su implementación.
+- Al ejecutar `setup-mvn.ps1`, pasar siempre `-MavenVersion 3.9.16`.
+- Los comandos completos pertenecen a `commands.md`.
 - No medir startup ni memoria como benchmark.
 - No compilar Native Image.
 - No demostrar live coding todavía.
 - No explicar las anotaciones del endpoint generado.
-- No explicar el test generado.
+- No explicar los tests generados.
 - No recorrer exhaustivamente el `pom.xml`.
-- La demo debe reducir abstracción, no adelantar contenido de sesiones futuras.
-
-## Referencias de preparación
-
-- https://quarkus.io/get-started/
-- https://quarkus.io/guides/getting-started
-- https://quarkus.io/guides/maven-tooling
-- https://quarkus.io/about/
-- https://quarkus.io/container-first/

@@ -1,8 +1,6 @@
 # Sesión 01 — Qué es Quarkus y qué problema intenta resolver
 
 > Estado: borrador de contenido para revisión.
->
-> Este documento define el alcance técnico y pedagógico de la primera sesión. Todavía no es el guion del video ni la presentación Marp.
 
 ## Objetivo de aprendizaje
 
@@ -13,6 +11,18 @@ La sesión debe responder principalmente a una pregunta:
 **¿Por qué existe Quarkus?**
 
 No se pretende explicar todavía en profundidad Dev Mode, CDI/ArC, programación reactiva, contenedores, Kubernetes, GraalVM Native Image ni los mecanismos internos de augmentation. Esos temas aparecen posteriormente en el roadmap.
+
+## Entorno base
+
+La sesión utiliza el baseline actual del curso:
+
+- JDK 25;
+- Apache Maven 3.9.16;
+- Git.
+
+Maven es la herramienta principal para crear y ejecutar los proyectos. La Quarkus CLI no forma parte de los requisitos del curso.
+
+Los comandos reproducibles de preparación, creación, ejecución y verificación están en [`commands.md`](commands.md).
 
 ## El problema que intenta resolver
 
@@ -30,7 +40,7 @@ Esta sesión introduce esa idea sin entrar todavía en sus mecanismos internos.
 
 Quarkus es un framework y stack Java orientado a la construcción de aplicaciones modernas, especialmente adecuado para entornos cloud y contenedores, pero no limitado a ellos.
 
-No sustituye el ecosistema Java. Integra tecnologías y estándares ya conocidos, entre ellos Jakarta EE, MicroProfile, Hibernate ORM, SmallRye, Vert.x y otras bibliotecas del ecosistema.
+Integra tecnologías y estándares conocidos del ecosistema Java, entre ellos Jakarta EE, MicroProfile, Hibernate ORM, SmallRye y Vert.x.
 
 A lo largo del curso será importante distinguir entre tres niveles:
 
@@ -110,11 +120,9 @@ Aplicación Quarkus
 
 En esta sesión no se estudiará todavía cómo agregar, eliminar o administrar extensiones. Eso pertenece a la sesión 02.
 
-Sí debe quedar planteada una diferencia importante: una extensión Quarkus no debe entenderse simplemente como "otra dependencia Maven". Las extensiones permiten integrar una tecnología con el modelo de construcción, configuración, desarrollo y ejecución de Quarkus.
+Una extensión Quarkus tampoco debe entenderse simplemente como otra dependencia Maven. Las extensiones permiten integrar una tecnología con el modelo de construcción, configuración, desarrollo y ejecución de Quarkus. Los detalles técnicos de esa integración se aprenderán progresivamente.
 
-Los detalles técnicos de esa integración se aprenderán progresivamente.
-
-## Qué no vamos a explicar todavía
+## Alcance de esta sesión
 
 La primera sesión debe evitar convertir la introducción en un catálogo de características. Algunos conceptos pueden mencionarse para ubicar Quarkus, pero su explicación corresponde a sesiones posteriores.
 
@@ -128,31 +136,19 @@ En particular:
 - **Native Image** se analizará cuando ya conozcamos empaquetado, contenedores y operación.
 - **augmentation e internals de Quarkus** pertenecen a la ruta avanzada.
 
-Esto permite presentar la visión general sin adelantar conocimientos que todavía no tienen contexto.
+## Malentendidos frecuentes
 
-## Mitos que conviene evitar desde el inicio
-
-### Quarkus no significa "Native Image"
-
-Quarkus puede ejecutarse sobre la JVM o compilarse como ejecutable nativo. Native Image es una opción de empaquetado y despliegue, no la definición del framework.
-
-### Quarkus no sirve únicamente para Kubernetes
+Quarkus puede ejecutarse sobre la JVM o compilarse posteriormente como ejecutable nativo. Native Image es una opción de empaquetado y despliegue, no un requisito para utilizar el framework.
 
 Su diseño presta especial atención a entornos cloud y contenedores, pero varias de sus optimizaciones también son útiles fuera de Kubernetes.
 
-### Quarkus no reemplaza Jakarta EE ni el ecosistema Java
+El framework se apoya en estándares y bibliotecas del ecosistema Java, por lo que aprender Quarkus no implica sustituir Jakarta EE, MicroProfile, Hibernate u otras tecnologías que aparecerán durante el curso.
 
-Quarkus integra estándares y bibliotecas existentes y les proporciona un modelo de ejecución y desarrollo adaptado a su arquitectura.
+Quarkus también admite distintos modelos de programación. La programación reactiva se estudiará cuando exista contexto suficiente para entender sus beneficios y costes.
 
-### Usar Quarkus no obliga a programar de forma reactiva
+## Demo aislada: `demos/01-getting-started/`
 
-Quarkus permite diferentes modelos de programación. La reactividad se estudiará cuando exista contexto suficiente para entender sus beneficios y costes.
-
-## Demo aislada: `getting-started-demo`
-
-La primera demo debe ser deliberadamente pequeña.
-
-Su objetivo no es enseñar todavía la estructura completa de un proyecto Quarkus, sino comprobar que podemos crear y ejecutar una aplicación.
+La primera demo debe ser deliberadamente pequeña. Su objetivo no es enseñar todavía la estructura completa de un proyecto Quarkus, sino comprobar que podemos crear y ejecutar una aplicación.
 
 El recorrido práctico será:
 
@@ -172,86 +168,46 @@ hacer una petición HTTP
 observar la respuesta
 ```
 
-Durante la demostración pueden señalarse elementos que se estudiarán después:
-
-- existe un `pom.xml`;
-- existe código Java;
-- existe configuración;
-- el proyecto incorpora extensiones;
-- existe código de prueba generado;
-- Quarkus puede ejecutar la aplicación.
-
-No se explicará todavía cada uno de esos elementos.
-
-La aplicación debería conservarse con el nombre:
-
-```text
-demos/getting-started-demo
-```
-
-La ubicación definitiva puede ajustarse cuando exista suficiente material para validar la estructura general del repositorio.
+Durante la demostración pueden señalarse elementos que se estudiarán después: el `pom.xml`, el código Java, la configuración, las extensiones y las pruebas generadas. No se explicará todavía cada uno de esos elementos.
 
 ## Verificación de la demo
 
-La prueba de esta primera sesión puede ser manual: arrancar la aplicación y realizar una petición HTTP que confirme que responde.
+La comprobación de esta primera sesión será manual: arrancar la aplicación y realizar una petición HTTP que confirme que responde.
 
 Los tests que genere Quarkus pueden conservarse en el proyecto, pero no es necesario explicarlos todavía. Testing tendrá su bloque formal y, a partir de allí, acompañará al resto del curso.
 
-La distinción es importante: ejecutar una comprobación manual en esta sesión no sustituye la futura estrategia de testing; simplemente evita introducir antes de tiempo APIs y herramientas que todavía no han sido enseñadas.
+Esta verificación manual no sustituye la futura estrategia de testing; evita introducir antes de tiempo APIs y herramientas que todavía no han sido enseñadas.
 
 ## Aplicación transversal: Issue Tracker
 
-La primera evolución del Issue Tracker consiste únicamente en crear el proyecto base y comprobar que puede ejecutarse.
+La primera evolución del Issue Tracker consiste únicamente en crear el proyecto base en:
 
-No se introducirán todavía:
+```text
+issue-tracker/
+```
 
-- Projects;
-- Issues;
-- endpoints de negocio;
-- separación Resource -> Service -> Repository;
-- persistencia;
-- seguridad;
-- usuarios;
-- ninguna otra capacidad funcional.
+y comprobar que puede ejecutarse.
 
-El resultado esperado al terminar la sesión es conceptualmente:
+No se introducirán todavía Projects, Issues, endpoints de negocio, separación por capas, persistencia, seguridad, usuarios ni ninguna otra capacidad funcional.
+
+El resultado esperado al terminar la sesión es:
 
 ```text
 quarkus-a-fondo/
 ├── demos/
-│   └── getting-started-demo/
+│   └── 01-getting-started/
 └── issue-tracker/
 ```
 
 Ambas aplicaciones deben poder ejecutarse.
 
-La primera representa el laboratorio aislado del curso. La segunda será la aplicación que evolucionará sesión tras sesión.
-
-## Simplificación didáctica y aplicación real
-
-En esta sesión la demo y el Issue Tracker pueden parecer casi idénticos. La diferencia no está todavía en su complejidad, sino en su propósito.
-
-`getting-started-demo` existe para observar el concepto de la sesión sin arrastrar decisiones anteriores.
-
-`issue-tracker` conservará su historia y evolucionará progresivamente. En sesiones posteriores las diferencias entre ambos serán cada vez más evidentes.
-
-## Flujo narrativo propuesto
-
-La explicación puede organizarse alrededor de cinco movimientos:
-
-1. **¿Por qué otro framework Java?** Contexto y necesidades actuales.
-2. **¿Qué es Quarkus?** Posición dentro del ecosistema Java.
-3. **Build time y runtime.** Introducir la idea sin estudiar todavía sus internals.
-4. **Extensiones.** Comprender cómo Quarkus incorpora capacidades.
-5. **Primera ejecución.** Crear y ejecutar `getting-started-demo` y dejar creado el proyecto base del Issue Tracker.
-
-El objetivo es que el estudiante termine con una aplicación funcionando y, al mismo tiempo, con preguntas que darán sentido a la siguiente sesión.
+En esta sesión la demo y el Issue Tracker pueden parecer casi idénticos. La diferencia está en su propósito: `demos/01-getting-started/` queda como laboratorio aislado de esta sesión, mientras que `issue-tracker/` conserva su historia y evoluciona progresivamente.
 
 ## Resultado final de la sesión
 
 Al finalizar:
 
-- existe una primera demo Quarkus ejecutable;
+- existe una primera demo Quarkus ejecutable en `demos/01-getting-started/`;
 - existe el proyecto inicial del Issue Tracker;
 - el estudiante puede explicar a alto nivel qué problema intenta resolver Quarkus;
 - distingue build time de runtime de forma introductoria;
@@ -265,7 +221,7 @@ La primera sesión utiliza el proyecto sin desmontar todavía todas sus piezas.
 La siguiente sesión responderá preguntas que quedan deliberadamente abiertas:
 
 - ¿qué generó exactamente el comando de creación?;
-- ¿qué papel tiene Maven y el plugin de Quarkus?;
+- ¿qué papel tienen Maven y el plugin de Quarkus?;
 - ¿qué contiene el `pom.xml`?;
 - ¿cómo se agregan o eliminan extensiones?;
 - ¿qué estructura tiene un proyecto Quarkus?;
@@ -284,10 +240,8 @@ Fuentes principales para preparar y verificar esta sesión:
 - Quarkus — About: https://quarkus.io/about/
 - Quarkus — Container First: https://quarkus.io/container-first/
 
-Fuentes complementarias para verificar afirmaciones que se mencionan de forma introductoria, aunque su contenido se desarrollará en sesiones posteriores:
+Fuentes complementarias para verificar afirmaciones introductorias que se desarrollarán en sesiones posteriores:
 
 - Quarkus — Building a Native Executable: https://quarkus.io/guides/building-native-image
 - Quarkus — Reactive Architecture: https://quarkus.io/guides/quarkus-reactive-architecture
 - Quarkus — Writing Extensions: https://quarkus.io/guides/writing-extensions
-
-La sesión debe mantener como referencias principales las dos fuentes indicadas en el roadmap. Las demás sirven para asegurar que las afirmaciones introductorias sean coherentes con la documentación actual, sin convertir esta sesión en una explicación de esos temas.

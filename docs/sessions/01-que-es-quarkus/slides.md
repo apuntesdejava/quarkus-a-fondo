@@ -15,19 +15,17 @@ size: 16:9
 
 # Objetivo
 
-Al terminar esta sesión:
-
 - ubicar Quarkus en el ecosistema Java;
 - entender **build time vs runtime**;
 - conocer el papel de las **extensiones**;
-- ejecutar nuestra primera aplicación.
+- ejecutar una primera aplicación.
 
 ---
 
 # El contexto cambió
 
 ```text
-Aplicación empresarial tradicional
+Aplicación empresarial
 
       arrancar
          │
@@ -65,8 +63,6 @@ Aplicación empresarial tradicional
 ---
 
 # Build time y runtime
-
-### Modelo simplificado
 
 ```text
 build
@@ -122,7 +118,7 @@ aplicación lista
        └──── ecosistema Java ┘
 ```
 
-**Integra el ecosistema; no parte de cero.**
+**Integración sobre tecnologías conocidas**
 
 ---
 
@@ -142,63 +138,42 @@ Las capacidades aparecen **cuando las necesitamos**.
 
 ---
 
-# Una extensión Quarkus
+# Malentendidos frecuentes
 
-## no es solamente...
+**Native Image** → opción posterior de empaquetado
 
-```xml
-<dependency>
-    ...
-</dependency>
-```
+**Kubernetes** → contexto importante, no requisito
 
-También puede integrarse con:
+**Jakarta EE** → parte del ecosistema utilizado
 
-**build · configuración · desarrollo · runtime**
-
----
-
-# Algunos mitos
-
-| Afirmación | |
-|---|:---:|
-| Quarkus = Native Image | ❌ |
-| Solo sirve para Kubernetes | ❌ |
-| Reemplaza Jakarta EE | ❌ |
-| Obliga a programar reactivo | ❌ |
+**reactividad** → modelo que estudiaremos más adelante
 
 ---
 
 # Entorno del curso
 
 ```text
-Java
- +
-Maven
-  │
-  ▼
-Quarkus Maven Plugin
+JDK 25
+  +
+Maven 3.9.16
+  +
+Git
 ```
 
-**Sin Quarkus CLI**
+**Maven es la herramienta principal**
 
 ---
 
-# Maven: versión explícita
+# Preparación reproducible
 
-Si usamos el script de instalación:
-
-```powershell
-.\setup-mvn.ps1 -MavenVersion 3.9.16
+```text
+Gist Java  ──► setup-java.ps1
+Gist Maven ──► setup-mvn.ps1
 ```
 
-Después:
+Descargar · ejecutar · verificar
 
-```powershell
-mvn -version
-```
-
-**El curso no depende del valor por defecto del script.**
+**La versión de Maven se indica explícitamente.**
 
 ---
 
@@ -221,45 +196,30 @@ observar la respuesta
 
 ---
 
-# Crear con Maven
-
-```powershell
-mvn io.quarkus.platform:quarkus-maven-plugin:3.40.1:create `
-  "-DprojectArtifactId=01-getting-started" `
-  "-Dextensions=rest"
-```
-
-> Los parámetros completos se explican en la sesión 02.
-
----
-
-# Ejecutar
-
-```powershell
-mvn quarkus:dev
-```
-
-Después:
+# Maven y Quarkus
 
 ```text
-GET /hello
+Maven
+  │
+  ▼
+Quarkus Maven Plugin
+  │
+  ▼
+proyecto
 ```
 
-🎯 **Objetivo: comprobar que funciona**
+Los comandos completos están en **commands.md**.
 
 ---
 
 # Lo vemos, pero todavía no lo estudiamos
 
 ```text
-pom.xml             → sesión 02
-plugin Maven        → sesión 02
-extensiones         → sesión 02
-estructura          → sesión 02
-mvn quarkus:dev     → sesión 03
-Dev UI              → sesión 04
-configuración       → sesión 05
-CDI / ArC           → sesión 07
+pom.xml / plugin / extensiones / estructura  → 02
+Dev Mode                                     → 03
+Dev UI                                       → 04
+configuración                                → 05
+CDI / ArC                                    → 07
 ```
 
 ---
@@ -295,8 +255,6 @@ quarkus-a-fondo/
 └── issue-tracker/
 ```
 
-Por ahora:
-
 **crear · ejecutar · comprobar**
 
 Sin funcionalidad de negocio.
@@ -306,12 +264,12 @@ Sin funcionalidad de negocio.
 # Qué debemos llevarnos
 
 ```text
-El contexto cambió
-        │
-        ▼
+contexto moderno
+      │
+      ▼
 más trabajo en build time
-        │
-        ▼
+      │
+      ▼
 menos trabajo al arrancar
 ```
 

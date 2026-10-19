@@ -65,7 +65,7 @@ Antes de persistencia, una implementación como `InMemoryIssueRepository` permit
 
 ## 01. Qué es Quarkus y qué problema intenta resolver
 
-**Demo aislada:** `getting-started-demo`
+**Demo aislada:** `demos/01-getting-started/`
 
 **Issue Tracker:** creación inicial del proyecto.
 
@@ -81,7 +81,7 @@ Antes de persistencia, una implementación como `InMemoryIssueRepository` permit
 
 ## 02. Crear un proyecto: Maven, extensiones y estructura
 
-**Demo aislada:** continuar `getting-started-demo`.
+**Demo aislada:** `demos/02-project-structure/`.
 
 **Issue Tracker:** crear el proyecto base y conocer su estructura.
 
