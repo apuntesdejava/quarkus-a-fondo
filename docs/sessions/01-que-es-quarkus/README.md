@@ -1,6 +1,5 @@
 # Sesión 01 — Qué es Quarkus y qué problema intenta resolver
 
-> Estado: video publicado; material del repositorio en preparación para publicación.
 
 ## Objetivo de aprendizaje
 
