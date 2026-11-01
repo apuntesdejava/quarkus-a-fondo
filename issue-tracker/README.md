@@ -1,66 +1,45 @@
-# issue-tracker
+# Issue Tracker
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Aplicación transversal del curso **Quarkus a Fondo**.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+En la sesión 01 su estado es deliberadamente mínimo: el proyecto existe, puede ejecutarse y expone únicamente el endpoint generado durante la creación inicial.
 
-## Running the application in dev mode
+La aplicación irá incorporando funcionalidad progresivamente a medida que el curso estudie nuevos conceptos. En esta etapa no contiene todavía Projects, Issues, persistencia, seguridad, usuarios ni separación por capas.
 
-You can run your application in dev mode that enables live coding using:
+## Ejecutar
 
-```shell script
-./mvnw quarkus:dev
+Desde esta carpeta:
+
+```powershell
+mvn quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Con la aplicación en ejecución, desde otra terminal:
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```powershell
+Invoke-WebRequest -Uri "http://localhost:8080/hello" | Select-Object -ExpandProperty Content
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Resultado esperado:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```text
+Hello from Quarkus REST
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Evolución
 
-## Creating a native executable
+El estado del Issue Tracker correspondiente a cada sesión publicada se podrá recuperar mediante tags del repositorio, por ejemplo:
 
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+```bash
+git checkout session-01
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## Material de la sesión 01
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+La explicación completa, comandos y diapositivas están en:
 
-You can then execute your native executable with: `./target/issue-tracker-1.0.0-SNAPSHOT-runner`
+`docs/sessions/01-que-es-quarkus/`
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+Video:
 
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): Build RESTful web services and APIs using Jakarta REST (formerly JAX-RS)
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+https://youtu.be/4he5y7Fr2TU?si=ou4iMOlWNRKypFGy
