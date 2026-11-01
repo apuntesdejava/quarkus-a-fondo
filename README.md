@@ -82,3 +82,7 @@ Las versiones pueden evolucionar junto con el curso. Cuando una sesión dependa 
 La documentación oficial actual de Quarkus es la fuente principal. Cuando corresponde, el curso complementa con documentación oficial de proyectos relacionados como Jakarta EE, MicroProfile, Hibernate, SmallRye o Keycloak.
 
 Este proyecto no pretende sustituir la documentación oficial, sino enseñar a entenderla, utilizarla y convertirla en conocimiento práctico.
+
+## Licencia
+
+El contenido y el código de este repositorio se distribuyen bajo la [Apache License 2.0](LICENSE).
