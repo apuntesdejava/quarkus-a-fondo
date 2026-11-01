@@ -1,6 +1,6 @@
 # Sesión 01 — Qué es Quarkus y qué problema intenta resolver
 
-> Estado: borrador de contenido para revisión.
+> Estado: video publicado; material del repositorio en preparación para publicación.
 
 ## Objetivo de aprendizaje
 
@@ -23,6 +23,10 @@ La sesión utiliza el baseline actual del curso:
 Maven es la herramienta principal para crear y ejecutar los proyectos. La Quarkus CLI no forma parte de los requisitos del curso.
 
 Los comandos reproducibles de preparación, creación, ejecución y verificación están en [`commands.md`](commands.md).
+
+## Video
+
+[Ver la sesión 01 en YouTube](https://youtu.be/4he5y7Fr2TU?si=ou4iMOlWNRKypFGy)
 
 ## El problema que intenta resolver
 

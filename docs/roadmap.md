@@ -75,6 +75,8 @@ Antes de estudiar persistencia, una implementación como `InMemoryIssueRepositor
 
 **Issue Tracker:** creación inicial del proyecto.
 
+**Video:** [Ver la sesión 01 en YouTube](https://youtu.be/4he5y7Fr2TU?si=ou4iMOlWNRKypFGy)
+
 **Objetivos principales:**
 - posicionar Quarkus dentro del ecosistema Java;
 - entender build time y runtime a nivel introductorio;
