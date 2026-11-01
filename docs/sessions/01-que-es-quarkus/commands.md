@@ -60,7 +60,10 @@ Set-Location demos
 Crear el proyecto:
 
 ```powershell
-mvn io.quarkus.platform:quarkus-maven-plugin:3.40.1:create "-DprojectGroupId=io.github.apuntesdejava.quarkusafondo" "-DprojectArtifactId=01-getting-started" "-Dextensions=rest"
+mvn "io.quarkus.platform:quarkus-maven-plugin:3.40.1.1:create"`
+    "-DprojectGroupId=io.github.apuntesdejava.quarkusafondo"`
+    "-DprojectArtifactId=01-getting-started"`
+    "-Dextensions=rest"
 ```
 
 Entrar en la demo:
@@ -92,7 +95,10 @@ Set-Location ../..
 Crear el proyecto transversal:
 
 ```powershell
-mvn io.quarkus.platform:quarkus-maven-plugin:3.40.1:create "-DprojectGroupId=io.github.apuntesdejava.quarkusafondo" "-DprojectArtifactId=issue-tracker" "-Dextensions=rest"
+mvn "io.quarkus.platform:quarkus-maven-plugin:3.40.1.1:create"`
+    "-DprojectGroupId=io.github.apuntesdejava.quarkusafondo"`
+    "-DprojectArtifactId=issue-tracker"`
+    "-Dextensions=rest"
 ```
 
 Entrar en el proyecto:
