@@ -1,12 +1,14 @@
 # Sesión 02 — Crear un proyecto: Maven, extensiones y estructura
 
-> Estado: borrador de contenido para revisión.
-
 ## Objetivo de aprendizaje
 
 Al terminar la sesión, el estudiante debería poder crear un proyecto Quarkus con Maven, reconocer su estructura básica, entender el papel del `pom.xml`, del BOM y del plugin de Quarkus, identificar las extensiones instaladas y agregar o eliminar extensiones sin tratar el proyecto generado como una caja negra.
 
 La sesión parte de lo construido anteriormente. En la sesión 01 creamos y ejecutamos una aplicación Quarkus; ahora toca entender qué se generó y cómo se administra.
+
+## Video
+
+[Ver la sesión 02 en YouTube](https://youtu.be/Q01st1rf9Kk)
 
 ## Entorno base
 

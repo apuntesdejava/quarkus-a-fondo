@@ -31,7 +31,7 @@ Maven es la herramienta principal del curso. La Quarkus CLI no es un requisito.
 | # | Tema | Video | Material | Estado |
 |---|---|---|---|---|
 | 01 | Qué es Quarkus y qué problema intenta resolver | [YouTube](https://youtu.be/4he5y7Fr2TU?si=ou4iMOlWNRKypFGy) | [Sesión 01](docs/sessions/01-que-es-quarkus/) | Publicada |
-| 02 | Crear un proyecto: Maven, extensiones y estructura | — | — | Planificada |
+| 02 | Crear un proyecto: Maven, extensiones y estructura | [YouTube](https://youtu.be/Q01st1rf9Kk) | [Sesión 02](docs/sessions/02-crear-un-proyecto/) | Publicada |
 | 03 | Dev Mode y ciclo de desarrollo | — | — | Planificada |
 | 04 | Dev UI | — | — | Planificada |
 | 05 | Configuración con SmallRye Config | — | — | Planificada |
