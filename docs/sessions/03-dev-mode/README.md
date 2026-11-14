@@ -6,6 +6,10 @@ Al terminar la sesión, el estudiante debería poder utilizar Dev Mode como cicl
 
 La sesión se concentra en la experiencia de desarrollo. No estudia todavía Dev UI, configuración avanzada, perfiles ni testing continuo; esos temas tendrán sus propias sesiones.
 
+## Video
+
+[Ver la sesión 03 en YouTube](https://youtu.be/0nu0taG6tjU)
+
 ## Entorno base
 
 La sesión utiliza el baseline actual del curso:
