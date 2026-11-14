@@ -93,14 +93,18 @@ Antes de estudiar persistencia, una implementación como `InMemoryIssueRepositor
 
 **Issue Tracker:** revisar el proyecto base creado en la sesión anterior y conocer su estructura.
 
+**Video:** [Ver la sesión 02 en YouTube](https://youtu.be/Q01st1rf9Kk)
+
 **Fuente oficial:**
 - https://quarkus.io/guides/maven-tooling
 
 ## 03. Dev Mode y ciclo de desarrollo
 
-**Demo aislada:** modificar comportamiento mientras la aplicación está ejecutándose.
+**Demo aislada:** experimentar con el ciclo de desarrollo en Dev Mode: modificar código mientras la aplicación está ejecutándose, observar la recompilación y el live reload, provocar y corregir un error de compilación y comparar el comportamiento con una aplicación empaquetada.
 
-**Issue Tracker:** primer endpoint temporal y uso habitual de `quarkus:dev`.
+**Issue Tracker:** utilizar el recurso existente para experimentar con Dev Mode y adoptar `quarkus:dev` como ciclo habitual de desarrollo, sin introducir todavía nuevos conceptos de REST.
+
+**Video:** [Ver la sesión 03 en YouTube](https://youtu.be/0nu0taG6tjU)
 
 **Fuentes oficiales:**
 - https://quarkus.io/guides/maven-tooling
