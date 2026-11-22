@@ -114,7 +114,9 @@ Antes de estudiar persistencia, una implementación como `InMemoryIssueRepositor
 
 **Demo aislada:** explorar Dev UI y las extensiones instaladas.
 
-**Issue Tracker:** utilizar Dev UI como herramienta recurrente de inspección.
+**Issue Tracker:** no se modifica en esta sesión; Dev UI se retomará cuando nuevas capacidades hagan útil inspeccionarlo.
+
+**Video:** [Ver la sesión 04 en YouTube](https://youtu.be/BojvQvoStDs)
 
 **Fuente oficial:**
 - https://quarkus.io/guides/dev-ui
