@@ -8,6 +8,10 @@ Esta sesión es una introducción. Dev UI ofrece bastante más de lo que necesit
 
 Dev UI se presenta aquí, pero se aprende realmente a lo largo del curso.
 
+## Video
+
+[Ver la sesión 04 en YouTube](https://youtu.be/BojvQvoStDs)
+
 ## Entorno base
 
 La sesión utiliza el baseline actual del curso:
